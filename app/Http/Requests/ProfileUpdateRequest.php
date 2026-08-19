@@ -24,8 +24,8 @@ class ProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
-            ],
+                Rule::unique(User::class)->ignore($this->user()->id),],
+            'bio' => ['nullable', 'string', 'max:160'], // <-- ADD Bio (max 160 chars)
         ];
     }
 }
