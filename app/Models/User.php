@@ -51,4 +51,21 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tweet::class);
     }
+    // 1. Get the users that THIS user is following
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id')->withTimestamps();
+    }
+
+    // 2. Get the users that are following THIS user
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id')->withTimestamps();
+    }
+
+    // 3. A helper function to easily check if we already follow someone (Returns True/False)
+    public function isFollowing(User $user)
+    {
+        return $this->following()->where('following_id', $user->id)->exists();
+    }
 }
