@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\TweetController;
+use App\Http\Controllers\FollowController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,3 +26,8 @@ Route::get('/user/{user}', [PublicProfileController::class, 'show'])->name('prof
 Route::post('/tweets', [TweetController::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('tweets.store');
+
+// Route to handle follow/unfollow toggle
+Route::post('/users/{user}/follow', [FollowController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('follow.store');
