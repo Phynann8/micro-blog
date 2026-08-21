@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <div class="mt-6 space-y-4">
-                @foreach ($tweets as $tweet)
+                @forelse ($tweets as $tweet)
                     <div class="bg-white p-6 rounded-lg shadow-sm flex space-x-4">
                         
                         <div class="h-12 w-12 flex-shrink-0 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xl font-bold shadow-sm">
@@ -23,7 +23,12 @@
                         </div>
 
                     </div>
-                @endforeach
+                @empty
+                    <!-- Empty State -->
+                    <div class="p-6 text-center text-gray-500 bg-white rounded-lg shadow-sm">
+                        You aren't following anyone yet! Go find some friends to see their tweets here.
+                    </div>
+                @endforelse
             </div>
         </h2>
     </x-slot>
