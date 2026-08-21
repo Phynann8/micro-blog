@@ -10,10 +10,20 @@ class TweetController extends Controller
     //Show Tweets to feeds
     public function index()
     {
-        // Fetch tweets, eager-load the user, and order newest first
-        $tweets = Tweet::with('user')->latest()->get();
 
-        // Pass the data to the dashboard view
+        // 1. Get the IDs of the users the currently logged-in user is following
+        $followingIds = auth()->user()->following()->pluck('users.id');
+
+        // 2. Add the logged-in user's OWN ID to the list so they see their own tweets
+        $followingIds->push(auth()->id());
+
+        // 3. Fetch tweets ONLY from those specific IDs, eager-load the user, and order by newest
+        $tweets = Tweet::whereIn('user_id', $followingIds)
+            ->with('user')
+            ->latest()
+            ->get();
+
+        // 4. Pass the filtered data to the dashboard view
         return view('dashboard', [
             'tweets' => $tweets
         ]);
